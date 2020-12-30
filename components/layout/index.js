@@ -7,7 +7,6 @@ export default function Layout({ children, pathname }) {
       <Nav pathname={pathname} />
       {pathname !== '/' && <div style={{ height: '80px', opacity: 0 }} />}
       {children}
-      <Footer />
     </div>
   );
 }
