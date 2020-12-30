@@ -2,16 +2,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import client from '../lib/client';
+import client, { urlFor } from '../lib/client';
 import groq from 'groq';
 import imageUrlBuilder from '@sanity/image-url';
 import { InView } from 'react-intersection-observer';
-
-const builder = imageUrlBuilder(client());
-
-function urlFor(source) {
-  return builder.image(source);
-}
 
 export default function Home({ homeData }) {
   const [innerH, setInnerH] = useState();

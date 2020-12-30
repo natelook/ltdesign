@@ -1,6 +1,6 @@
 import groq from 'groq';
 import { useState } from 'react';
-import client from '../lib/client';
+import client, { urlFor } from '../lib/client';
 import imageUrlBuilder from '@sanity/image-url';
 import BlockContent from '@sanity/block-content-to-react';
 import Image from 'next/image';
@@ -14,12 +14,6 @@ import getYouTubeId from 'get-youtube-id';
 import Modal from '../components/Modal';
 import { useContext } from 'react';
 import { UiContext } from '../components/context';
-
-const builder = imageUrlBuilder(client());
-
-function urlFor(source) {
-  return builder.image(source);
-}
 
 const serializers = {
   types: {
@@ -103,8 +97,8 @@ export default function Product({ product }) {
 
               <BlockContent
                 blocks={product.body}
-                projectId={process.env.SANITY_ID}
-                dataset={process.env.SANITY_DATASET}
+                projectId='k9dvzqe9'
+                dataset='production'
                 serializers={serializers}
               />
             </div>
