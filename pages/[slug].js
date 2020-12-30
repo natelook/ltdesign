@@ -86,12 +86,19 @@ export default function Product({ product }) {
               </div>
 
               <div className='flex justify-between items-center'>
-                <button
-                  className='bg-red-500 hover:bg-black transtion duration-300 border-red-500 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'
-                  onClick={addToCart}
-                >
-                  Add to Cart
-                </button>
+                {product.avalible ? (
+                  <button
+                    className='bg-red-500 hover:bg-black transtion duration-300 border-red-500 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'
+                    onClick={addToCart}
+                  >
+                    Add to Cart
+                  </button>
+                ) : (
+                  <button className='bg-gray-600 hover:bg-black transtion duration-300 border-gray-600 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'>
+                    Coming Soon
+                  </button>
+                )}
+
                 <span className='text-white text-2xl'>${product.price}</span>
               </div>
 
