@@ -4,7 +4,7 @@ import useUpdateItem from '@bigcommerce/storefront-data-hooks/cart/use-update-it
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { BiTrash } from 'react-icons/bi';
 
-export default function CartItem({ item }) {
+export default function CartItem({ item, dark }) {
   const [remove, setRemove] = useState(false);
   const [q, setQ] = useState(item.quantity);
   const removeItem = useRemoveItem();
@@ -28,10 +28,12 @@ export default function CartItem({ item }) {
   return (
     <>
       <div className='flex justify-between border-gray-300  border-b-2  pb-4 mb-4'>
-        <div className='text-black'>
+        <div className={`${dark ? 'text-white' : 'text-black'}`}>
           <span className='text-xl block mb-2'>{item.name}</span>
           {remove ? (
-            <span className='text-black block'>Removing ...</span>
+            <span className={`block ${dark ? 'text-white' : 'text-black'}`}>
+              Removing ...
+            </span>
           ) : (
             <div className='flex justify-between cols-span-2 text-lg'>
               <div className='flex items-center'>
