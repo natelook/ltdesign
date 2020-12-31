@@ -4,7 +4,7 @@ import Product from '../components/Product';
 
 export default function Products({ products }) {
   return (
-    <div className='container px-4'>
+    <div className='container px-4 mx-auto'>
       <h1 className='text-4xl text-center uppercase my-10 font-bold tracking-widest'>
         All Products
       </h1>

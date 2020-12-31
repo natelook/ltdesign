@@ -36,7 +36,9 @@ export default function Product({
 
   return (
     <div className='flex flex-col items-center justify-center mb-5'>
-      <h3 className='text-2xl mb-1 font-bold px-2 text-center'>{title}</h3>
+      <h3 className='text-2xl mb-1 font-bold px-2 text-center max-w-lg'>
+        {title}
+      </h3>
       <div className='relative'>
         <Image
           src={urlFor(images[0]).height(400).width(500).url()}
