@@ -2,6 +2,7 @@ import client from '../../../lib/client';
 import groq from 'groq';
 import axios from 'axios';
 import imageUrlBuilder from '@sanity/image-url';
+import Cors from 'cors';
 
 const builder = imageUrlBuilder(client());
 
@@ -28,7 +29,55 @@ const SANITY_HEADERS = {
   },
 };
 
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
+
+const cors = Cors({
+  methods: ['GET', 'POST'],
+});
+
+async function createProductUpdateSanity(data, sanityId) {
+  try {
+    const bigCommerceData = await axios.post(
+      BIGCOMMERCE_URL,
+      data,
+      BIGCOMMERCE_HEADERS,
+    );
+
+    const sanityData = {
+      mutations: [
+        {
+          patch: {
+            id: sanityId,
+            set: {
+              bcId: bigCommerceData.data.data.id,
+              bcVariant: bigCommerceData.data.data.base_variant_id,
+            },
+          },
+        },
+      ],
+    };
+    // Update Sanity
+    await axios.post(SANITY_URL, sanityData, SANITY_HEADERS);
+    const message = `Created ${data.name} in Big Commerce`;
+    console.log(message);
+    return message;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default async (req, res) => {
+  await runMiddleware(req, res, cors);
   const sanity = await client().fetch(groq`
     *[_type == 'product'] {
       _id,
@@ -40,7 +89,9 @@ export default async (req, res) => {
     }
   `);
 
-  sanity.forEach((product) => {
+  const message = [];
+
+  const promises = sanity.map(async (product) => {
     const productData = {
       name: product.title,
       price: product.price,
@@ -55,61 +106,21 @@ export default async (req, res) => {
     };
 
     if (!product.bcId) {
-      axios
-        .post(BIGCOMMERCE_URL, productData, BIGCOMMERCE_HEADERS)
-        .then((result) => {
-          const bigcommerceId = result.data.data.id;
-          const bigcommerceBaseVariantId = result.data.data.base_variant_id;
-
-          const sanityUpdate = {
-            mutations: [
-              {
-                patch: {
-                  id: product._id,
-                  set: {
-                    bcId: bigcommerceId,
-                    bcVariant: bigcommerceBaseVariantId,
-                  },
-                },
-              },
-            ],
-          };
-
-          axios
-            .post(SANITY_URL, sanityUpdate, SANITY_HEADERS)
-            .then(() => console.log(`${product.title} Big Commerce ID added`))
-            .catch((error) =>
-              console.log({ sanityError: error.response.data.error }),
-            );
-        })
-        .catch((error) => console.log({ bcError: error }));
+      // Send Data to Bigcommerce
+      await createProductUpdateSanity(productData, product._id);
+      message.push(`Created ${product.title} in Big Commerce`);
     } else {
-      axios
-        .put(
-          `${BIGCOMMERCE_URL}/${product.bcId}`,
-          productData,
-          BIGCOMMERCE_HEADERS,
-        )
-        .then((result) => {
-          const bigcommerceId = result.data.data.id;
-
-          const sanityUpdate = {
-            mutations: [
-              {
-                patch: {
-                  id: product._id,
-                  set: {
-                    bcId: bigcommerceId,
-                  },
-                },
-              },
-            ],
-          };
-        })
-        .catch((error) => console.log({ bcError: error }));
+      // Update Big Commerce Product Information
+      await axios.put(
+        `${BIGCOMMERCE_URL}/${product.bcId}`,
+        productData,
+        BIGCOMMERCE_HEADERS,
+      );
+      message.push(`Updated ${product.title} in Big Commerce`);
     }
   });
 
+  await Promise.all(promises);
   res.statusCode = 200;
-  res.json('Updated/Added Items');
+  return res.json({ message });
 };
