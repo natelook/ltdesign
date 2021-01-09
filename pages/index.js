@@ -28,7 +28,7 @@ export default function Home({ homeData }) {
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <div className='container max-w-xs mx-auto md:max-w-max'>
-                <Image src='/logo-all-white.png' height='100' width='550' />
+                <Image src='/ltlogo.png' height='132' width='567.25' />
               </div>
             </motion.div>
             <motion.h5
