@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useContext } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { urlFor } from '../lib/client';
@@ -35,8 +36,13 @@ export default function NewProduct({ product }) {
       </div>
       <div className='grid grid-cols-2'>
         <button className='bg-gray-800 py-3 text-xl uppercase tracking-wider font-bold flex justify-center'>
-          <span className='flex items-center'>More</span>
+          <Link href={`${product.slug.current}`}>
+            <a>
+              <span className='flex items-center'>More</span>
+            </a>
+          </Link>
         </button>
+
         <button
           className='bg-red-600 py-3 text-xl uppercase tracking-wider font-bold flex justify-center'
           onClick={() => addToCart()}
