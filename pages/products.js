@@ -1,6 +1,7 @@
 import client from '../lib/client';
 import groq from 'groq';
 import Product from '../components/Product';
+import NewProduct from '../components/NewProduct';
 
 export default function Products({ products }) {
   return (
@@ -10,7 +11,7 @@ export default function Products({ products }) {
       </h1>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
         {products.map((product) => (
-          <Product key={product._id} {...product} />
+          <NewProduct key={product._id} product={product} />
         ))}
       </div>
     </div>
