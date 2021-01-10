@@ -11,7 +11,7 @@ export default function Products({ products }) {
       </h1>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
         {products.map((product) => (
-          <NewProduct key={product._id} product={product} />
+          <NewProduct key={product.product._id} product={product.product} />
         ))}
       </div>
     </div>
@@ -20,7 +20,12 @@ export default function Products({ products }) {
 
 export async function getStaticProps() {
   const products = await client().fetch(
-    groq`*[_type == 'product' && public == true]`,
+    groq`*[_type == 'home'][0] {
+      productListing[] {
+        "product": @->
+      }
+    }`,
   );
-  return { props: { products } };
+
+  return { props: { products: products.productListing } };
 }

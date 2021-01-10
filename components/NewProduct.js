@@ -21,17 +21,23 @@ export default function NewProduct({ product }) {
     }
   };
   return (
-    <div className='mx-auto relative w-full'>
+    <div className='mx-auto relative mb-10' style={{ maxWidth: '500px' }}>
       <div className='w-full -mb-2'>
-        <Image
-          src={urlFor(product.images[0]).height(520).width(700).url()}
-          height='520'
-          width='700'
-          layout='intrinsic'
-        />
+        <Link href={product.slug.current}>
+          <a>
+            <Image
+              src={urlFor(product.images[0]).height(500).width(500).url()}
+              height='500'
+              width='500'
+              layout='intrinsic'
+            />
+          </a>
+        </Link>
       </div>
       <div className='text-center py-2 bg-gray-800 bg-opacity-10'>
-        <span className='block text-2xl mb-3 mt-1'>{product.title}</span>
+        <span className='flex text-2xl mb-3 mt-1 px-5 md:h-16 items-center'>
+          {product.title}
+        </span>
         <span className='block text-xl'>${product.price}</span>
       </div>
       <div className='grid grid-cols-2'>

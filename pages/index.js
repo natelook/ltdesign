@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import client, { urlFor } from '../lib/client';
 import groq from 'groq';
+import NewProduct from '../components/NewProduct';
 import imageUrlBuilder from '@sanity/image-url';
 import { InView } from 'react-intersection-observer';
 
@@ -17,8 +18,11 @@ export default function Home({ homeData }) {
   return (
     <div>
       <div
-        className='bg-hero bg-center bg-cover flex justify-center items-center'
-        style={{ height: `calc(${innerH} * 100px)` }}
+        className='bg-center bg-cover flex justify-center items-center'
+        style={{
+          height: `calc(${innerH} * 100px)`,
+          backgroundImage: `url(${urlFor(homeData.backgroundImage).url()})`,
+        }}
       >
         <div className='z-20 text-center'>
           <div className='container mx-auto'>
@@ -52,78 +56,24 @@ export default function Home({ homeData }) {
           </motion.div>
         </div>
         <div
-          className='bg-black bg-opacity-10 absolute w-full z-10'
-          style={{ height: '75vh' }}
+          className='bg-black bg-opacity-60 absolute w-full z-10'
+          style={{ height: `calc(${innerH} * 100px)` }}
         ></div>
       </div>
-      <FeaturedProducts products={homeData.featured} />
+      <h2 className='text-white text-4xl uppercase text-center py-5 tracking-wider font-bold'>
+        Products
+      </h2>
+      <FeaturedProducts products={homeData.productListing} />
     </div>
   );
 }
-
-let initialDealay = 0.3;
-
-const transitions = {
-  delay: initialDealay,
-  duration: 0.5,
-};
 
 function FeaturedProducts({ products }) {
   return (
-    <div className='bg-black pt-5 container mx-auto'>
+    <div className='bg-black grid md:grid-cols-2 container mx-auto px-2'>
       {products.map((product, i) => (
-        <InView key={i} triggerOnce threshold={0.5}>
-          {({ inView, ref, entry }) => (
-            <motion.div
-              ref={ref}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: inView ? 1 : 0 }}
-              transition={transitions}
-              className='flex flex-col md:flex-row'
-            >
-              <div className='flex flex-col md:flex-row md:mb-2 '>
-                <FeaturedImage
-                  image={product.image}
-                  buttonText={product.buttonText}
-                  title={product.title}
-                  buttonColor={product.buttonColor}
-                  slug={product.product.slug.current}
-                />
-                <div
-                  className={`text-center px-5 flex-1 py-20 md:py-0 flex justify-center items-center ${
-                    i % 2 && 'md:order-first'
-                  } `}
-                >
-                  <h3 className='text-white text-center text-4xl font-bold mb-2'>
-                    {product.description}
-                  </h3>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </InView>
+        <NewProduct key={i} product={product.product} />
       ))}
-    </div>
-  );
-}
-
-function FeaturedImage({ image, buttonText, title, buttonColor, slug }) {
-  return (
-    <div className='relative flex-1'>
-      <img
-        src={urlFor(image).width(1400).height(900).url()}
-        className='w-full relative'
-      />
-      <div className='absolute bottom-2 left-2 p-3 bg-black z-10 rounded-md'>
-        <h3 className='text-white md:text-3xl text-2xl font-bold'>{title}</h3>
-        <Link href={`/${slug}`}>
-          <a
-            className={`w-full text-white p-2 block text-center mt-3 rounded-md text-xl font-bold ${buttonColor}`}
-          >
-            {buttonText}
-          </a>
-        </Link>
-      </div>
     </div>
   );
 }
@@ -148,6 +98,7 @@ export async function getStaticProps() {
     tag,
     link { current },
     buttonText,
+    backgroundImage,
     featured[] {
       image,
       buttonText,
@@ -155,6 +106,9 @@ export async function getStaticProps() {
       buttonColor,
       description,
       product->{slug { current }}
+    },
+    productListing[] {
+      "product": @->
     }
   }`);
   return { props: { homeData } };
