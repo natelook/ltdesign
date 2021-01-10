@@ -95,7 +95,7 @@ export default function Product({ product }) {
                   </button>
                 ) : (
                   <button className='bg-gray-600 hover:bg-black transtion duration-300 border-gray-600 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'>
-                    Coming Soon
+                    Not in Stock
                   </button>
                 )}
 
