@@ -35,7 +35,7 @@ export default function NewProduct({ product }) {
         </Link>
       </div>
       <div className='text-center py-2 bg-gray-800 bg-opacity-10'>
-        <span className='flex text-2xl mb-3 mt-1 px-5 md:h-16 items-center'>
+        <span className='flex text-2xl mb-3 mt-1 px-5 md:h-16 items-center justify-center'>
           {product.title}
         </span>
         <span className='block text-xl'>${product.price}</span>
