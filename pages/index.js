@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import client, { urlFor } from '../lib/client';
-import groq from 'groq';
-import NewProduct from '../components/NewProduct';
-import imageUrlBuilder from '@sanity/image-url';
-import { InView } from 'react-intersection-observer';
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import client, { urlFor } from '../lib/client'
+import groq from 'groq'
+import NewProduct from '../components/NewProduct'
+import imageUrlBuilder from '@sanity/image-url'
+import { InView } from 'react-intersection-observer'
 
 export default function Home({ homeData }) {
-  const [innerH, setInnerH] = useState();
+  const [innerH, setInnerH] = useState()
 
   useEffect(() => {
-    setInnerH(window.innerHeight * 0.01);
-  });
+    setInnerH(window.innerHeight * 0.01)
+  })
 
   return (
     <div>
@@ -65,7 +65,7 @@ export default function Home({ homeData }) {
       </h2>
       <FeaturedProducts products={homeData.productListing} />
     </div>
-  );
+  )
 }
 
 function FeaturedProducts({ products }) {
@@ -75,7 +75,7 @@ function FeaturedProducts({ products }) {
         <NewProduct key={i} product={product.product} />
       ))}
     </div>
-  );
+  )
 }
 
 function HeroButton({ link, text }) {
@@ -90,7 +90,7 @@ function HeroButton({ link, text }) {
         </a>
       </Link>
     </motion.div>
-  );
+  )
 }
 
 export async function getStaticProps() {
@@ -99,6 +99,7 @@ export async function getStaticProps() {
     link { current },
     buttonText,
     backgroundImage,
+    avalible,
     featured[] {
       image,
       buttonText,
@@ -110,6 +111,6 @@ export async function getStaticProps() {
     productListing[] {
       "product": @->
     }
-  }`);
-  return { props: { homeData } };
+  }`)
+  return { props: { homeData } }
 }
