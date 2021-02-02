@@ -1,30 +1,27 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import Cart from '../cart/Cart';
-import { motion } from 'framer-motion';
-import useCart from '@bigcommerce/storefront-data-hooks/cart/use-cart';
-import { useContext } from 'react';
-import { UiContext } from '../context';
+import Head from 'next/head'
+import Link from 'next/link'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
+import Cart from '../cart/Cart'
+import { motion } from 'framer-motion'
+import useCart from '@bigcommerce/storefront-data-hooks/cart/use-cart'
+import { useContext } from 'react'
+import { UiContext } from '../context'
 
-const countItem = (count, item) => count + item.quantity;
-const countItems = (count, items) => items.reduce(countItem, count);
+const countItem = (count, item) => count + item.quantity
+const countItems = (count, items) => items.reduce(countItem, count)
 
 export default function Nav() {
-  const { state, dispatch } = useContext(UiContext);
-  const { data } = useCart();
-  const itemsCount = Object.values(data?.line_items ?? {}).reduce(
-    countItems,
-    0,
-  );
+  const { state, dispatch } = useContext(UiContext)
+  const { data } = useCart()
+  const itemsCount = Object.values(data?.line_items ?? {}).reduce(countItems, 0)
 
   const openCart = () => {
-    dispatch({ type: 'OPEN' });
-  };
+    dispatch({ type: 'OPEN' })
+  }
 
   const closeCart = () => {
-    dispatch({ type: 'CLOSE' });
-  };
+    dispatch({ type: 'CLOSE' })
+  }
   return (
     <>
       <div>
@@ -43,11 +40,16 @@ export default function Nav() {
                 </a>
               </Link>
             </div>
-            <div className='-mt-1 flex items-center' onClick={() => openCart()}>
+            <div
+              className='-mt-1 flex items-center relative'
+              onClick={() => openCart()}
+            >
               <AiOutlineShoppingCart color='#fff' size='1.5em' />
-              <span className='bg-red-500 ml-2 py-1 px-2 rounded'>
-                {itemsCount}
-              </span>
+              {itemsCount > 0 && (
+                <span className='bg-red-500 -right-3 -top-2 absolute h-5 w-5 text-sm flex items-center justify-center rounded-full'>
+                  {itemsCount}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -63,7 +65,7 @@ export default function Nav() {
         ></motion.div>
       )}
     </>
-  );
+  )
 }
 
 function Meta() {
@@ -110,5 +112,5 @@ function Meta() {
         }}
       />
     </Head>
-  );
+  )
 }

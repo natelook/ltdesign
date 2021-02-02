@@ -22,14 +22,14 @@ export default function NewProduct({ product }) {
     }
   }
   return (
-    <div className='mx-auto relative mb-10' style={{ maxWidth: '500px' }}>
+    <div className='mx-auto relative mb-10' style={{ maxWidth: '400px' }}>
       <div className='w-full -mb-2'>
         <Link href={product.slug.current}>
           <a>
             <Image
-              src={urlFor(product.images[0]).height(500).width(500).url()}
-              height='500'
-              width='500'
+              src={urlFor(product.images[0]).height(300).width(400).url()}
+              height='300'
+              width='400'
               layout='intrinsic'
             />
           </a>

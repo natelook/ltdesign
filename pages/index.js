@@ -70,7 +70,7 @@ export default function Home({ homeData }) {
 
 function FeaturedProducts({ products }) {
   return (
-    <div className='bg-black grid md:grid-cols-2 container mx-auto px-2'>
+    <div className='bg-black grid md:grid-cols-3 container mx-auto px-2'>
       {products.map((product, i) => (
         <NewProduct key={i} product={product.product} />
       ))}

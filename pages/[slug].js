@@ -1,19 +1,19 @@
-import groq from 'groq';
-import { useState } from 'react';
-import client, { urlFor } from '../lib/client';
-import imageUrlBuilder from '@sanity/image-url';
-import BlockContent from '@sanity/block-content-to-react';
-import Image from 'next/image';
-import { getConfig } from '@bigcommerce/storefront-data-hooks/api';
-import getAllProducts from '@bigcommerce/storefront-data-hooks/api/operations/get-all-products';
-import useAddItem from '@bigcommerce/storefront-data-hooks/cart/use-add-item';
-import YouTube from 'react-youtube';
-import { motion } from 'framer-motion';
-import { InView } from 'react-intersection-observer';
-import getYouTubeId from 'get-youtube-id';
-import Modal from '../components/Modal';
-import { useContext } from 'react';
-import { UiContext } from '../components/context';
+import groq from 'groq'
+import { useState } from 'react'
+import client, { urlFor } from '../lib/client'
+import imageUrlBuilder from '@sanity/image-url'
+import BlockContent from '@sanity/block-content-to-react'
+import Image from 'next/image'
+import { getConfig } from '@bigcommerce/storefront-data-hooks/api'
+import getAllProducts from '@bigcommerce/storefront-data-hooks/api/operations/get-all-products'
+import useAddItem from '@bigcommerce/storefront-data-hooks/cart/use-add-item'
+import YouTube from 'react-youtube'
+import { motion } from 'framer-motion'
+import { InView } from 'react-intersection-observer'
+import getYouTubeId from 'get-youtube-id'
+import Modal from '../components/Modal'
+import { useContext } from 'react'
+import { UiContext } from '../components/context'
 
 const serializers = {
   types: {
@@ -21,19 +21,19 @@ const serializers = {
       const opt = {
         height: '275',
         width: '100%',
-      };
-      const { url, caption } = node;
-      const id = getYouTubeId(url);
-      return <YouTube videoId={id} opts={opt} />;
+      }
+      const { url, caption } = node
+      const id = getYouTubeId(url)
+      return <YouTube videoId={id} opts={opt} />
     },
   },
-};
+}
 
 export default function Product({ product }) {
-  const { state, dispatch } = useContext(UiContext);
-  const addItem = useAddItem();
-  const [isOpen, setIsOpen] = useState();
-  const [selectedImage, setSelectedImage] = useState();
+  const { state, dispatch } = useContext(UiContext)
+  const addItem = useAddItem()
+  const [isOpen, setIsOpen] = useState()
+  const [selectedImage, setSelectedImage] = useState()
 
   const addToCart = async () => {
     // Add a set loading
@@ -41,17 +41,17 @@ export default function Product({ product }) {
       await addItem({
         productId: product.bcId,
         variantId: product.bcVariant,
-      });
-      dispatch({ type: 'OPEN' });
+      })
+      dispatch({ type: 'OPEN' })
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const setPopup = (imageUrl) => {
-    setIsOpen(true);
-    setSelectedImage(imageUrl);
-  };
+    setIsOpen(true)
+    setSelectedImage(imageUrl)
+  }
 
   return (
     <>
@@ -126,7 +126,7 @@ export default function Product({ product }) {
                   >
                     <div
                       onClick={() => {
-                        setPopup(urlFor(image).height(600).width(1000).url());
+                        setPopup(urlFor(image).height(600).width(1000).url())
                       }}
                     >
                       <Image
@@ -144,29 +144,29 @@ export default function Product({ product }) {
       </div>
       {isOpen && <Modal image={selectedImage} close={() => setIsOpen(false)} />}
     </>
-  );
+  )
 }
 
 export async function getStaticPaths() {
   const products = await client().fetch(
     groq`*[_type == 'product'] { slug { current }}`,
-  );
+  )
   const paths = products.map((product) => ({
     params: { slug: product.slug.current },
-  }));
-  return { paths, fallback: false };
+  }))
+  return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
-  const config = getConfig();
+  const config = getConfig()
   const product = await client().fetch(
     groq`*[_type == 'product' && slug.current == $slug]`,
     {
       slug: params.slug,
     },
-  );
-  const bigcommerce = await getAllProducts({ config });
+  )
+  const bigcommerce = await getAllProducts({ config })
   return {
     props: { product: product[0] },
-  };
+  }
 }
