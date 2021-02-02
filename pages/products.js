@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { CgDarkMode } from 'react-icons/cg'
 
 export default function Products({ products }) {
-  const [darkMode, setDarkMode] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
 
   return (
     <div
