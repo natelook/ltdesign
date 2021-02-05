@@ -12,6 +12,7 @@ import cn from 'classnames'
 import { route } from 'next/dist/next-server/server/router'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useState, useEffect } from 'react'
+import { usePreventScroll } from '@react-aria/overlays'
 
 const date = 'date'
 
@@ -53,6 +54,10 @@ export default function Nav() {
   const closeCart = () => {
     dispatch({ type: 'CLOSE' })
   }
+
+  usePreventScroll({
+    isDisabled: !state.displayCart,
+  })
 
   return (
     <>
