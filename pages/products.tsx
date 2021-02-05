@@ -26,7 +26,7 @@ export default function Products({
         <h1 className='md:text-6xl text-4xl text-center uppercase font-bold tracking-widest pt-5 mb-5'>
           All Products
         </h1>
-        <div className='flex flex-wrap justify-center'>
+        <div className='grid md:grid-cols-3 place-items-center place-content-center container px-4 mx-auto'>
           {products.map((product: any) => (
             <ProductCard key={product.product._id} product={product.product} />
           ))}
