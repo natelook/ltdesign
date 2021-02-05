@@ -60,7 +60,7 @@ export default function Nav() {
         <Meta />
         <div
           className={cn(
-            'bg-black fixed w-full z-30 py-2 md:py-5 transition-colors duration-500',
+            'bg-black fixed w-full z-30 py-4 md:py-5 transition-colors duration-500',
             {
               'bg-opacity-0': transparent,
             },
