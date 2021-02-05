@@ -20,39 +20,38 @@ export default function Cart({ open, close }) {
       initial={{ x: 400 }}
       animate={{ x: open ? 0 : 400 }}
       transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
-      className='bg-white right-0 fixed z-40 shadow-lg'
-      style={{ width: '350px', height: `calc(${innerH} * 100px)` }}
+      className='bg-white right-0 fixed z-40 shadow-lg rounded-l-lg rounded-bl-lg'
+      style={{ width: '375px', height: `calc(${innerH} * 100px)` }}
     >
-      <div className='flex py-2 items-center justify-between mb-2 border-black border-b-2 px-6'>
+      <div className='flex items-center justify-between mb-2 border-black border-b px-6 pt-8 pb-2'>
         <h3 className='text-black text-3xl font-bold'>Cart</h3>
         <div className='cursor-pointer' onClick={close}>
-          <AiOutlineClose size='2em' color='#000' />
+          <AiOutlineClose size='2.25em' color='#000' />
         </div>
       </div>
-      <div className=''>
-        {isEmpty && <p className='text-black'>Cart is empty</p>}
+      <div className='px-1'>
+        {isEmpty && <p className='text-black px-5'>Cart is empty</p>}
         {items.map((item, i) => (
           <CartItem item={item} key={i} />
         ))}
       </div>
       {!isEmpty && (
         <div className='absolute w-full px-6 bottom-4'>
-          <div className='flex flex-col mb-4'>
+          <div className='flex flex-col mb-6 text-black font-bold text-lg'>
             <Link href='/products'>
-              <a className='text-md text-gray-700 mb-2 block' onClick={close}>
+              <a className=' mb-2 block' onClick={close}>
                 View all Products
               </a>
             </Link>
-            <span
-              className='text-md text-gray-700 block cursor-pointer select-none'
-              onClick={close}
-            >
+            <span className='block cursor-pointer select-none' onClick={close}>
               Continue Shopping
             </span>
           </div>
-          <p className='text-black text-lg flex justify-between mb-2'>
+          <p className='text-black text-lg flex justify-between mb-2 border-t pt-4'>
             <span className='font-bold'>Total </span>
-            <span className='select-none'>${data.cart_amount}</span>
+            <span className='select-none'>
+              ${Number(data.cart_amount).toFixed(2)}
+            </span>
           </p>
 
           <a

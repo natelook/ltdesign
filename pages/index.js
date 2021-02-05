@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import client, { urlFor } from '../lib/client'
 import groq from 'groq'
-import NewProduct from '../components/NewProduct'
+import ProductCard from '../components/ProductCard'
 import imageUrlBuilder from '@sanity/image-url'
 import { InView } from 'react-intersection-observer'
 
@@ -20,48 +20,30 @@ export default function Home({ homeData }) {
       <div
         className='bg-center bg-cover flex justify-center items-center'
         style={{
-          height: `calc(${innerH} * 100px)`,
-          backgroundImage: `url(${urlFor(homeData.backgroundImage).url()})`,
+          height: '85vh',
+          backgroundImage: `url(${urlFor(homeData.backgroundImage)
+            .width(2000)
+            .height(800)
+            .url()})`,
         }}
       >
-        <div className='z-20 text-center'>
+        <div className='z-20 text-center max-w-xl'>
           <div className='container mx-auto'>
-            <motion.div
-              initial={{ opacity: 0, y: -100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <div className='container max-w-xs mx-auto md:max-w-max'>
-                <Image src='/ltlogo.png' height='132' width='567.25' />
-              </div>
-            </motion.div>
-            <motion.h5
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className='text-3xl md:text-5xl text-white line mb-5 leading-snug'
-            >
+            <h5 className='text-3xl md:text-5xl text-white line mb-5 '>
               {homeData.tag}
-            </motion.h5>
+            </h5>
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.5 }}
-          >
-            <HeroButton
-              link={homeData.link.current}
-              text={homeData.buttonText}
-            />
-          </motion.div>
+          <HeroButton link={homeData.link.current} text={homeData.buttonText} />
         </div>
         <div
           className='bg-black bg-opacity-60 absolute w-full z-10'
-          style={{ height: `calc(${innerH} * 100px)` }}
+          style={{ height: '85vh' }}
         ></div>
       </div>
-      <h2 className='text-white text-4xl uppercase text-center py-5 tracking-wider font-bold'>
-        Products
+      <h2 className='text-white text-4xl md:text-6xl uppercase text-center py-10 tracking-widest font-bold'>
+        <Link href='/products'>
+          <a>All Products</a>
+        </Link>
       </h2>
       <FeaturedProducts products={homeData.productListing} />
     </div>
@@ -70,9 +52,9 @@ export default function Home({ homeData }) {
 
 function FeaturedProducts({ products }) {
   return (
-    <div className='bg-black grid md:grid-cols-3 container mx-auto px-2'>
+    <div className='grid grid-cols-1 md:grid-cols-3 place-items-center place-content-center container px-4 mx-auto'>
       {products.map((product, i) => (
-        <NewProduct key={i} product={product.product} />
+        <ProductCard key={i} product={product.product} />
       ))}
     </div>
   )

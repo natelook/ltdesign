@@ -27,9 +27,9 @@ export default function CartItem({ item, dark }) {
 
   return (
     <>
-      <div className='flex justify-between border-black  border-b px-6 py-2 pb-4 mb-4'>
+      <div className='flex justify-between border-b px-6 py-2 pb-4 mb-4'>
         <div className={`${dark ? 'text-white' : 'text-black'}`}>
-          <span className=' block mb-2'>{item.name}</span>
+          <span className='block mb-2 font-bold'>{item.name}</span>
           {remove ? (
             <span className={`block ${dark ? 'text-white' : 'text-black'}`}>
               Removing ...

@@ -66,7 +66,7 @@ export default function Product({ product }) {
           }`}
         >
           <div className='container mx-auto px-4'>
-            <div className='sticky mb-2 top-20'>
+            <div className='sticky mb-2 top-32'>
               <h1
                 onClick={() => setIsOpen(true)}
                 className='text-3xl font-bold md:text-left text-center'

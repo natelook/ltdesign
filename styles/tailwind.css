@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   background-color: #000;
   color: #fff;
@@ -10,4 +9,15 @@ body {
 
 h5 {
   font-family: 'Permanent Marker';
+}
+
+.filler {
+  height: 99px;
+}
+
+@media (max-width: 767px) {
+  .filler {
+    height: 117px;
+    margin-bottom: 20px;
+  }
 }

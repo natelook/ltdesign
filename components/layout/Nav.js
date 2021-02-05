@@ -3,16 +3,47 @@ import Link from 'next/link'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Cart from '../cart/Cart'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/router'
 import useCart from '@bigcommerce/storefront-data-hooks/cart/use-cart'
 import { useContext } from 'react'
 import { UiContext } from '../context'
+import Image from 'next/image'
+import cn from 'classnames'
+import { route } from 'next/dist/next-server/server/router'
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
+import { useState, useEffect } from 'react'
+
+const date = 'date'
 
 const countItem = (count, item) => count + item.quantity
 const countItems = (count, items) => items.reduce(countItem, count)
 
 export default function Nav() {
   const { state, dispatch } = useContext(UiContext)
+  const router = useRouter()
   const { data } = useCart()
+  const [transparent, setTransparent] = useState()
+
+  useEffect(() => {
+    router.pathname == '/' ? setTransparent(true) : setTransparent(false)
+    console.log('hello')
+  }, [router.query])
+
+  useScrollPosition(({ currPos }) => {
+    if (router.pathname == '/') {
+      if (currPos.y < -75) {
+        console.log(true)
+        setTransparent(false)
+      }
+
+      if (!transparent) {
+        if (currPos.y > -75) {
+          setTransparent(true)
+        }
+      }
+    }
+  })
+
   const itemsCount = Object.values(data?.line_items ?? {}).reduce(countItems, 0)
 
   const openCart = () => {
@@ -22,34 +53,45 @@ export default function Nav() {
   const closeCart = () => {
     dispatch({ type: 'CLOSE' })
   }
+
   return (
     <>
       <div>
         <Meta />
-        <div className='bg-black fixed w-full z-30 pt-4 pb-2 '>
-          <div className='container mx-auto px-4 flex items-center justify-between'>
-            <div className='relative flex items-center cursor-pointer'>
+        <div
+          className={cn(
+            'bg-black fixed w-full z-30 py-2 md:py-5 transition-colors duration-500',
+            {
+              'bg-opacity-0': transparent,
+            },
+          )}
+        >
+          <div className='mx-auto px-10 flex md:flex-row flex-col items-center justify-between'>
+            <div className='flex items-center md:pt-2 pb-3  md:pb-0'>
               <Link href='/'>
-                <a className='text-white text-lg mr-4 md:mr-6 font-bold uppercase hover:bg-red-600 transition duration-500 py-1 px-2 tracking-wide rounded'>
-                  Home
-                </a>
-              </Link>
-              <Link href='/products'>
-                <a className='text-white text-lg mr-4 md:mr-6 font-bold uppercase hover:bg-red-600 transition duration-500 py-1 px-2 tracking-wide rounded'>
-                  Products
+                <a className='block'>
+                  <Image src='/logo-logo.png' width='250' height='51' />
                 </a>
               </Link>
             </div>
-            <div
-              className='-mt-1 flex items-center relative'
-              onClick={() => openCart()}
-            >
-              <AiOutlineShoppingCart color='#fff' size='1.5em' />
-              {itemsCount > 0 && (
-                <span className='bg-red-500 -right-3 -top-2 absolute h-5 w-5 text-sm flex items-center justify-center rounded-full'>
-                  {itemsCount}
-                </span>
-              )}
+            <div className='relative flex justify-between md:justify-end items-center cursor-pointer -mt-1 space-x-20 md:space-x-0'>
+              <Link href='/products'>
+                <a className='text-white text-lg -ml-5 md:ml-0 md:mr-6 font-bold uppercase hover:bg-red-600 transition duration-200 py-1 px-2 tracking-wide rounded block'>
+                  Products
+                </a>
+              </Link>
+
+              <div
+                className='-mt-1 flex items-center relative'
+                onClick={() => openCart()}
+              >
+                <AiOutlineShoppingCart color='#fff' size='1.5em' />
+                {itemsCount > 0 && (
+                  <span className='bg-red-500 -right-3 -top-2 absolute h-5 w-5 text-sm flex items-center justify-center rounded-full'>
+                    {itemsCount}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
