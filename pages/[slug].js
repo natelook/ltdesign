@@ -93,7 +93,7 @@ export default function Product({ data, preview }) {
                 />
               </div>
 
-              {/* <div className='flex justify-between items-center'>
+              <div className='flex justify-between items-center'>
                 {product.avalible ? (
                   <button
                     className='bg-red-500 hover:bg-black transtion duration-300 border-red-500 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'
@@ -108,7 +108,7 @@ export default function Product({ data, preview }) {
                 )}
 
                 <span className='text-white text-2xl'>${product.price}</span>
-              </div> */}
+              </div>
 
               <BlockContent
                 blocks={product.body}
