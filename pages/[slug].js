@@ -1,6 +1,6 @@
 import groq from 'groq'
 import { useState } from 'react'
-import client, { urlFor } from '../lib/client'
+import client, { urlFor, usePreviewSubscription } from '../lib/client'
 import imageUrlBuilder from '@sanity/image-url'
 import BlockContent from '@sanity/block-content-to-react'
 import Image from 'next/image'
@@ -14,6 +14,8 @@ import getYouTubeId from 'get-youtube-id'
 import Modal from '../components/Modal'
 import { useContext } from 'react'
 import { UiContext } from '../components/context'
+
+const PRODUCT_QUERY = groq`*[_type == 'product' && slug.current == $slug][0]`
 
 const serializers = {
   types: {
@@ -29,11 +31,17 @@ const serializers = {
   },
 }
 
-export default function Product({ product }) {
+export default function Product({ data, preview }) {
   const { state, dispatch } = useContext(UiContext)
   const addItem = useAddItem()
   const [isOpen, setIsOpen] = useState()
   const [selectedImage, setSelectedImage] = useState()
+
+  const { data: product } = usePreviewSubscription(PRODUCT_QUERY, {
+    params: { slug: data.slug.current },
+    initialData: data,
+    enabled: preview,
+  })
 
   const addToCart = async () => {
     // Add a set loading
@@ -85,7 +93,7 @@ export default function Product({ product }) {
                 />
               </div>
 
-              <div className='flex justify-between items-center'>
+              {/* <div className='flex justify-between items-center'>
                 {product.avalible ? (
                   <button
                     className='bg-red-500 hover:bg-black transtion duration-300 border-red-500 border-2 text-white px-5 py-2 rounded font-bold uppercase mt-5 mb-5 text-lg'
@@ -100,7 +108,7 @@ export default function Product({ product }) {
                 )}
 
                 <span className='text-white text-2xl'>${product.price}</span>
-              </div>
+              </div> */}
 
               <BlockContent
                 blocks={product.body}
@@ -154,19 +162,16 @@ export async function getStaticPaths() {
   const paths = products.map((product) => ({
     params: { slug: product.slug.current },
   }))
-  return { paths, fallback: false }
+  return { paths, fallback: true }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview = false }) {
   const config = getConfig()
-  const product = await client().fetch(
-    groq`*[_type == 'product' && slug.current == $slug]`,
-    {
-      slug: params.slug,
-    },
-  )
+  const product = await client(preview).fetch(PRODUCT_QUERY, {
+    slug: params.slug,
+  })
   const bigcommerce = await getAllProducts({ config })
   return {
-    props: { product: product[0] },
+    props: { data: product, preview },
   }
 }

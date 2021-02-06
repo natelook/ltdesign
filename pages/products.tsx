@@ -5,6 +5,13 @@ import { CgDarkMode } from 'react-icons/cg'
 import client from '../lib/client'
 import ProductCard from '../components/ProductCard'
 
+interface Product {
+  product: ID
+}
+interface ID {
+  _id: number
+}
+
 export async function getStaticProps() {
   const products = await client().fetch(
     groq`*[_type == 'home'][0] {
@@ -27,8 +34,8 @@ export default function Products({
           All Products
         </h1>
         <div className='grid md:grid-cols-3 place-items-center place-content-center container px-4 mx-auto'>
-          {products.map((product: any) => (
-            <ProductCard key={product.product._id} product={product.product} />
+          {products.map(({ product }: Product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>
