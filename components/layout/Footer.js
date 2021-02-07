@@ -1,43 +1,35 @@
-import { AiOutlineInstagram } from 'react-icons/ai';
-
-// script.onload = function () {
-//   checkoutKitLoader
-//     .load('checkout-sdk')
-//     .then(function (module) {
-//       var checkoutService = module.createCheckoutService();
-//       return checkoutService.loadCheckout(window.checkoutConfig.checkoutId);
-//     })
-//     .then(function (state) {
-//       console.log('Checkout SDK Quickstart', state.data.getCheckout());
-//       document.getElementById(window.checkoutConfig.containerId).innerHTML =
-//         'Checkout ID: ' + state.data.getCheckout().id;
-//     });
-// };
-// script.src = 'https://checkout-sdk.bigcommerce.com/v1/loader.js';
-// document.head.appendChild(script);
+import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <div className='bg-gray-800 mt-5 bg-opacity-40'>
-      <div className='container max-w-5xl mx-auto text-white py-5 flex justify-between '>
-        <p>&copy; {new Date().getFullYear()} LT Design</p>
-        {() => bigcommerce()}
-        <div className='flex items-center'>
-          <a
-            href='https://instagram.com/ltpods'
-            target='_blank'
-            className='flex items-center'
-          >
-            <AiOutlineInstagram size='1.25em' />
+    <div className='border-t border-gray-600 mt-5 py-5 px-5 container text-center'>
+      <p>&copy; {new Date().getFullYear()} LT Design</p>
+      <ul className='flex justify-between my-5'>
+        <li>
+          <Link href='/products'>
+            <a>All Products</a>
+          </Link>
+        </li>
+        <li>
+          <a href='mailto:ltledpods@gmail.com'>Contact Us</a>
+        </li>
+        <li>
+          <a href='</a>' target='ltpods'>
+            Instagram
           </a>
-          <span className='mx-1'>&bull;</span>
-          <p className='mx-1'>Return Policy</p>
-          <span className='mx-1'>&bull;</span>
-          <p className='mx-1'>Legal Stuff</p>
-          <span className='mx-1'>&bull;</span>
-          <p className='mx-1'>Contact</p>
-        </div>
-      </div>
+        </li>
+        <li>
+          <a href='https://www.instagram.com/liftedtundras/' target='_blank'>
+            Lifted Tundras
+          </a>
+        </li>
+      </ul>
+      <p>
+        Built by{' '}
+        <a className='text-red-600 font-bold' href='https://natelook.com'>
+          nate
+        </a>
+      </p>
     </div>
-  );
+  )
 }

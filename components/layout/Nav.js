@@ -27,7 +27,6 @@ export default function Nav() {
 
   useEffect(() => {
     router.pathname == '/' ? setTransparent(true) : setTransparent(false)
-    console.log('hello')
   }, [router.query])
 
   useScrollPosition(({ currPos }) => {
@@ -55,9 +54,9 @@ export default function Nav() {
     dispatch({ type: 'CLOSE' })
   }
 
-  usePreventScroll({
-    isDisabled: !state.displayCart,
-  })
+  // usePreventScroll({
+  //   isDisabled: !state.displayCart,
+  // })
 
   return (
     <>

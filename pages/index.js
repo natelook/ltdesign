@@ -18,9 +18,8 @@ export default function Home({ homeData }) {
   return (
     <div>
       <div
-        className='bg-center bg-cover flex justify-center items-center'
+        className='bg-center bg-cover flex justify-center items-center h-seventy md:h-eighty'
         style={{
-          height: '85vh',
           backgroundImage: `url(${urlFor(homeData.backgroundImage)
             .width(2000)
             .height(800)
@@ -35,10 +34,7 @@ export default function Home({ homeData }) {
           </div>
           <HeroButton link={homeData.link.current} text={homeData.buttonText} />
         </div>
-        <div
-          className='bg-black bg-opacity-60 absolute w-full z-10'
-          style={{ height: '85vh' }}
-        ></div>
+        <div className='bg-black bg-opacity-60 absolute w-full z-10 h-seventy md:h-eighty'></div>
       </div>
       <h2 className='text-white text-4xl md:text-6xl uppercase text-center py-10 tracking-widest font-bold'>
         <Link href='/products'>

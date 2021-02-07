@@ -7,6 +7,7 @@ export default function Layout({ children, pathname }) {
       <Nav pathname={pathname} />
       {pathname !== '/' && <div className='filler' />}
       {children}
+      <Footer />
     </div>
   )
 }

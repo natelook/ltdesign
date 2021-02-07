@@ -36,7 +36,7 @@ export default function Cart({ open, close }) {
         ))}
       </div>
       {!isEmpty && (
-        <div className='absolute w-full px-6 bottom-4'>
+        <div className='absolute w-full px-6 bottom-10'>
           <div className='flex flex-col mb-6 text-black font-bold text-lg'>
             <Link href='/products'>
               <a className=' mb-2 block' onClick={close}>

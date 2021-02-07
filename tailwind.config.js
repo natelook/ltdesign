@@ -7,9 +7,13 @@ module.exports = {
         hero: "url('/headlights-landing3.jpg')",
       }),
     },
+    height: {
+      seventy: '70vh',
+      eighty: '85vh',
+    },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-};
+}
