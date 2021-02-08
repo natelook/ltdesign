@@ -37,8 +37,13 @@ export default function Product({ data, preview }) {
   const [isOpen, setIsOpen] = useState()
   const [selectedImage, setSelectedImage] = useState()
 
+  if (!data) {
+    console.log('no data')
+    return <p>Loading</p>
+  }
+
   const { data: product } = usePreviewSubscription(PRODUCT_QUERY, {
-    params: { slug: data.slug.current },
+    params: { slug: data?.slug?.current },
     initialData: data,
     enabled: preview,
   })
@@ -60,6 +65,8 @@ export default function Product({ data, preview }) {
     setIsOpen(true)
     setSelectedImage(imageUrl)
   }
+
+  console.log(data.slug.current)
 
   return (
     <>
