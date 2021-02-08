@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { AiOutlineClose } from 'react-icons/ai'
 import CartItem from './CartItem'
+import Div100vh from 'react-div-100vh'
 
 export default function Cart({ open, close }) {
   const { data, isEmpty } = useCart()
@@ -11,17 +12,24 @@ export default function Cart({ open, close }) {
 
   const [innerH, setInnerH] = useState()
 
+  console.log()
+
   useEffect(() => {
-    setInnerH(window.innerHeight * 0.01)
-  })
+    const onScroll = (e) => {
+      setInnerH(window.innerHeight)
+    }
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [innerH])
 
   return (
     <motion.div
       initial={{ x: 400 }}
       animate={{ x: open ? 0 : 400 }}
       transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
-      className='bg-white right-0 fixed z-40 shadow-lg rounded-l-lg rounded-bl-lg'
-      style={{ width: '375px', height: `calc(${innerH} * 100px)` }}
+      className='bg-white right-0 fixed z-40 shadow-lg rounded-l-lg rounded-bl-lg h-full'
+      style={{ width: '375px', height: innerH }}
     >
       <div className='flex items-center justify-between mb-2 border-black border-b px-6 pt-8 pb-2'>
         <h3 className='text-black text-3xl font-bold'>Cart</h3>

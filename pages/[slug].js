@@ -66,8 +66,6 @@ export default function Product({ data, preview }) {
     setSelectedImage(imageUrl)
   }
 
-  console.log(data.slug.current)
-
   return (
     <>
       <div
