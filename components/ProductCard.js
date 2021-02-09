@@ -25,7 +25,7 @@ export default function NewProduct({ product }) {
   return (
     <Link href={`/${product.slug.current}`}>
       <a>
-        <div className='mx-2 mb-5 border-4 hover:border-red-500 border-transparent p-3 cursor-pointer transition duration-100'>
+        <div className='mx-2 mb-5 border-4 hover:border-red-500 border-transparent md:p-3 cursor-pointer transition duration-100'>
           <Image
             height='250'
             width='350'
@@ -33,11 +33,13 @@ export default function NewProduct({ product }) {
           />
           <div className='text-center'>
             <div className='max-w-xs px-2 mx-auto'>
-              <h3 className='mt-1 text-lg text-center font-bold capitalize'>
+              <h3 className='mt-1 text-sm md:text-lg text-center font-bold capitalize'>
                 {product.title}
               </h3>
             </div>
-            <span className='text-center'>${product.price}</span>
+            <span className='text-center text-sm md:text-lg'>
+              ${product.price}
+            </span>
           </div>
         </div>
       </a>

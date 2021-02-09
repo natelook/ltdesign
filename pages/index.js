@@ -48,7 +48,7 @@ export default function Home({ homeData }) {
 
 function FeaturedProducts({ products }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 place-items-center place-content-center container px-4 mx-auto'>
+    <div className='grid grid-cols-2 md:grid-cols-3 md:place-items-center  place-content-start container px-4 mx-auto'>
       {products.map((product, i) => (
         <ProductCard key={i} product={product.product} />
       ))}
