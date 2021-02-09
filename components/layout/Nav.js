@@ -54,9 +54,9 @@ export default function Nav() {
     dispatch({ type: 'CLOSE' })
   }
 
-  usePreventScroll({
-    isDisabled: !state.displayCart,
-  })
+  // usePreventScroll({
+  //   isDisabled: !state.displayCart,
+  // })
 
   return (
     <>
